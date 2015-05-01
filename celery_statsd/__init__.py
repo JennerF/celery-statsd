@@ -6,7 +6,7 @@ import time
 import celery
 import celery.signals
 
-import statsd
+from datadog import statsd
 
 _state = threading.local()
 
