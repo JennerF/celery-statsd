@@ -1,5 +1,7 @@
 celery-statsd
 =============
+Fork of [celery-statsd](https://github.com/ssaw/celery-statsd) to work with [datadog](https://www.datadoghq.com/).
+
 
 In your `tasks.py`
 
