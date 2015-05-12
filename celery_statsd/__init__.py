@@ -24,19 +24,8 @@ def task_key(task):
 def get_client(celery_app):
     try:
         client = _state.clients[celery_app]
-    except AttributeError:
-        client = statsd.StatsClient(
-            celery_app.conf.STATSD_HOST,
-            celery_app.conf.STATSD_PORT
-        )
-
-        _state.clients = {celery_app: client}
     except KeyError:
-        client = statsd.StatsClient(
-            celery_app.conf.STATSD_HOST,
-            celery_app.conf.STATSD_PORT
-        )
-
+        client = statsd
         _state.clients[celery_app] = client
 
     return client
@@ -60,7 +49,7 @@ def stop_timer(name, group, instance):
 
 
 def inc_counter(name, group):
-    get_client(celery.current_app).incr("{0}.{1}".format(group, name))
+    get_client(celery.current_app).increment("{0}.{1}".format(group, name))
 
 
 @celery.signals.before_task_publish.connect
