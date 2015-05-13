@@ -24,6 +24,9 @@ def task_key(task):
 def get_client(celery_app):
     try:
         client = _state.clients[celery_app]
+    except AttributeError:
+        client = statsd
+        _state.clients = {celery_app: client}
     except KeyError:
         client = statsd
         _state.clients[celery_app] = client
